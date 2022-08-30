@@ -1,4 +1,12 @@
-Requerimientos:
+# TallerTEC
+
+
+## Descripción del proyecto
+TallerTECService es un web API desarrollado utilizando .NET Core 6.0 y su respectivo Framework para aplicaciones MVC  <!-- COMPLETAR-->
+---
+
+
+## Requerimientos:
 
 El proyecto fue creado utilizando VS Code, por lo cual se recomienda hacer uso del mismo para hacer modificaciones en el codigo, puede descargar VS code haciendo uso del siguiente enlace https://code.visualstudio.com/download, siga las instrucciones del wizard y complete el proceso de instalacion
 
@@ -8,12 +16,15 @@ Una vez descargados, instale primero .NET Runtime y posteriormente .NET SDK. Sig
 
 Se recomienda el uso de POSTMAN para hacer pruebas para cada uno de los endpoints creados. Puede obtener POSTMAN en la siguiente direccion
 https://www.postman.com/downloads/.
+---
 
-Instrucciones de uso:
+## Instrucciones de uso:
 
 Para ejecutar el proyecto, abra la carpeta en la que clono el repositorio o abra la carpeta del proyecto en VS Code y desde una terminal ejecute el comando:
 
+```
 dotnet run
+```
 
 Esto permitira probar cada uno de los endpoints utilizando la ruta base http://localhost:5075 configurada por default en el proyecto.
 
