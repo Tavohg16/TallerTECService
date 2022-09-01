@@ -23,7 +23,7 @@ namespace TallerTECService.Data
                 loginData = JsonConvert.DeserializeObject<List<Trabajador>>(json);
             }
             
-            var user = loginData.AsQueryable().Where(e => e.usuario == userData.nombreUsuario).FirstOrDefault();
+            var user = loginData.AsQueryable().Where(e => e.cedula == userData.cedula).FirstOrDefault();
 
             if(user != null && user.contrasena == userData.contrasena)
             {

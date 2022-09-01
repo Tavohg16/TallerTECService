@@ -6,7 +6,7 @@ namespace TallerTECService.Models
     //usuario y contrasena.
     public class LoginData
     {
-        public string? nombreUsuario { get; set; }
+        public string? cedula { get; set; }
         public string? contrasena { get; set; }
     }
 }
