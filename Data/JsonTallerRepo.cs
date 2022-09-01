@@ -17,7 +17,7 @@ namespace TallerTECService.Data
         {
             AuthResponse validation = new AuthResponse();
             List<LoginData> loginData = new List<LoginData>();
-            using (StreamReader r = new StreamReader("Data/usuarios.json"))
+            using (StreamReader r = new StreamReader("Data/trabajadores.json"))
             {
                 string json = r.ReadToEnd();
                 loginData = JsonConvert.DeserializeObject<List<LoginData>>(json);
@@ -25,7 +25,7 @@ namespace TallerTECService.Data
             
             var user = loginData.AsQueryable().Where(e => e.nombreUsuario == userData.nombreUsuario).FirstOrDefault();
 
-            if(user != null && user.contrasena == userData.contrasena && user.tipoUsuario == userData.tipoUsuario)
+            if(user != null && user.contrasena == userData.contrasena)
             {
             
                 validation.authenticated = true;

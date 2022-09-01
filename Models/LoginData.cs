@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 
 namespace TallerTECService.Models
 {
@@ -7,7 +6,6 @@ namespace TallerTECService.Models
     //usuario y contrasena.
     public class LoginData
     {
-        public string? tipoUsuario { get; set; }
         public string? nombreUsuario { get; set; }
         public string? contrasena { get; set; }
     }
