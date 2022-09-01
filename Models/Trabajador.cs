@@ -1,5 +1,7 @@
 namespace TallerTECService.Models
 {
+    //Modelo de datos de Trabajador
+    //usado para la gestion de trabajadores en la solucion, asi como el proceso de autenticacion.
     public class Trabajador
     {
         public string? nombre { get; set; }
