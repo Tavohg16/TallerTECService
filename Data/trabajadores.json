@@ -1,0 +1,16 @@
+[
+  {
+    "nombre":"Pedro",
+    "primer_apellido":"mora",
+    "segundo_apellido":"vega",
+    "password":"abcde123",
+    "cedula":"123456",
+    "dia_ingreso":16,
+    "mes_ingreso":6,
+    "ano_ingreso":2000,
+    "dia_nacimiento":3,
+    "mes_naicimiento":2,
+    "ano_nacimiento":1972,
+    "rol":"Gerente de Sucursal"
+    }
+]
