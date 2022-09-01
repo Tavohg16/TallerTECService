@@ -16,14 +16,14 @@ namespace TallerTECService.Data
         public AuthResponse authCheck(LoginData userData)
         {
             AuthResponse validation = new AuthResponse();
-            List<LoginData> loginData = new List<LoginData>();
+            List<Trabajador> loginData = new List<Trabajador>();
             using (StreamReader r = new StreamReader("Data/trabajadores.json"))
             {
                 string json = r.ReadToEnd();
-                loginData = JsonConvert.DeserializeObject<List<LoginData>>(json);
+                loginData = JsonConvert.DeserializeObject<List<Trabajador>>(json);
             }
             
-            var user = loginData.AsQueryable().Where(e => e.nombreUsuario == userData.nombreUsuario).FirstOrDefault();
+            var user = loginData.AsQueryable().Where(e => e.usuario == userData.nombreUsuario).FirstOrDefault();
 
             if(user != null && user.contrasena == userData.contrasena)
             {
