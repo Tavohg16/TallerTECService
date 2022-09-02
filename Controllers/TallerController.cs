@@ -29,7 +29,57 @@ namespace TallerTECService.Controllers
         {
 
             var auth = _repository.authCheck(loginData);
-            return Ok(auth);
+            if(auth.authenticated){
+                return Ok(auth);
+            }
+            else
+            {
+                return Unauthorized(auth);
+            }
+            
+            
+
+        }
+
+    }
+
+    [Route("api/manage/worker")]
+    [ApiController]
+    public class WorkerController : ControllerBase
+    {
+        private readonly ITallerRepo _repository;
+
+        public WorkerController(ITallerRepo repository)
+        {
+            _repository = repository;
+        }
+        
+        // GET api/manage/worker
+        [HttpGet]
+        public ActionResult<ActionResponse> GetWorker()
+        {
+
+            
+            return Ok();
+
+        }
+
+        [HttpDelete]
+        public ActionResult<ActionResponse> DeleteWorker(IdRequest deletionId)
+        {
+            
+            var response = _repository.deleteWorker(deletionId);
+            return Ok(response);
+
+        }
+
+        // POST api/manage/worker
+        [HttpPost]
+        public ActionResult<ActionResponse> CreateWorker(Trabajador newWorker)
+        {
+
+            var response = _repository.createWorker(newWorker);
+            return Ok(response); 
 
         }
 

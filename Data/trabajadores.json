@@ -1,16 +1,1 @@
-[
-  {
-    "nombre":"Pedro",
-    "primer_apellido":"mora",
-    "segundo_apellido":"vega",
-    "cedula":"123456",
-    "contrasena":"123456789abc",
-    "dia_ingreso":16,
-    "mes_ingreso":6,
-    "ano_ingreso":2000,
-    "dia_nacimiento":3,
-    "mes_naicimiento":2,
-    "ano_nacimiento":1972,
-    "rol":"Gerente de Sucursal"
-    }
-]
+[{"nombre":"Kevin","primer_apellido":"Barrantes","segundo_apellido":"Cerdas","cedula":"304930544","contrasena":"MiContrasena123","dia_ingreso":1,"mes_ingreso":8,"ano_ingreso":2022,"dia_nacimiento":16,"mes_nacimiento":0,"ano_nacimiento":1996,"rol":"Mecanico"}]

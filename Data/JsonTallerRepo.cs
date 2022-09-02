@@ -10,22 +10,18 @@ namespace TallerTECService.Data
     public class JsonTallerRepo : ITallerRepo
     {
         
+        
         //Logica de autenticacion de usuarios. Hace uso de libreria NewtonSoft.Json para el manejo de la base de datos.
         //Recibe una instancia de LoginData creada con el mensaje entrante desde el cliente en el endpoint POST api/login
         //Retorna una instancia de AuthResponse. 
         public AuthResponse authCheck(LoginData userData)
         {
-            AuthResponse validation = new AuthResponse();
-            List<Trabajador> loginData = new List<Trabajador>();
-            using (StreamReader r = new StreamReader("Data/trabajadores.json"))
-            {
-                string json = r.ReadToEnd();
-                loginData = JsonConvert.DeserializeObject<List<Trabajador>>(json);
-            }
+            var validation = new AuthResponse();
+            var workerList = getAllWorkers();
             
-            var user = loginData.AsQueryable().Where(e => e.cedula == userData.cedula).FirstOrDefault();
+            var worker = workerList.AsQueryable().Where(e => e.cedula == userData.cedula).FirstOrDefault();
 
-            if(user != null && user.contrasena == userData.contrasena)
+            if(worker != null && worker.contrasena == userData.contrasena)
             {
             
                 validation.authenticated = true;
@@ -37,6 +33,72 @@ namespace TallerTECService.Data
             
             return validation;
 
+        }
+
+        public ActionResponse createWorker(Trabajador newWorker)
+        {
+            var response = new ActionResponse();
+            var workerList = getAllWorkers();
+            var checkId = workerList.AsQueryable().Where(e => e.cedula == newWorker.cedula).FirstOrDefault();
+
+            if(checkId != null)
+            {
+                response.actualizado=false;
+                response.mensaje="Error al crear el trabajador, ya existe un trabajador con la cedula "+checkId.cedula;
+                return response;
+            }
+            
+            var checkRole = workerList.AsQueryable().Where(e => e.rol == "Gerente de Sucursal").FirstOrDefault();
+
+            if(checkRole != null && newWorker.rol == "Gerente de Sucursal")
+            {
+                response.actualizado=false;
+                response.mensaje="Error al crear el trabajador, ya existe un gerente de sucursal";
+                return response;
+            }
+            
+
+            workerList.Add(newWorker);
+            string json = JsonConvert.SerializeObject(workerList.ToArray());
+            System.IO.File.WriteAllText(@"Data/trabajadores.json", json);
+            response.actualizado=true;
+            response.mensaje="Trabajador creado exitosamente";
+            return response;
+
+        }
+
+        public ActionResponse deleteWorker(IdRequest deletionId)
+        {
+            var response = new ActionResponse();
+            var workerList = getAllWorkers();
+            var itemToDelete = workerList.SingleOrDefault(e => e.cedula == deletionId.cedula);
+
+            if(itemToDelete != null)
+            {
+                workerList.Remove(itemToDelete);
+            string json = JsonConvert.SerializeObject(workerList.ToArray());
+            System.IO.File.WriteAllText(@"Data/trabajadores.json", json);
+            response.actualizado = true;
+            response.mensaje = "Trabajador eliminado exitosamente";
+            return response;
+            }
+
+            response.actualizado = false;
+            response.mensaje = "No se encontro un trabajador con la cedula "+deletionId.cedula;
+            return response;
+
+
+        }
+
+        public List<Trabajador> getAllWorkers()
+        {
+            List<Trabajador> workerList = new List<Trabajador>();
+            using (StreamReader r = new StreamReader("Data/trabajadores.json"))
+            {
+                string json = r.ReadToEnd();
+                workerList = JsonConvert.DeserializeObject<List<Trabajador>>(json);
+            }
+            return workerList;
         }
     }
 }
