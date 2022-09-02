@@ -55,12 +55,12 @@ namespace TallerTECService.Controllers
         }
         
         // GET api/manage/worker
-        [HttpGet]
-        public ActionResult<ActionResponse> GetWorker()
+        [HttpGet("all")]
+        public ActionResult<IEnumerable<Trabajador>> GetAllWorkers()
         {
 
-            
-            return Ok();
+            var allWorkers = _repository.getAllWorkers();
+            return Ok(allWorkers);
 
         }
 
