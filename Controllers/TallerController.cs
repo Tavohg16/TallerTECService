@@ -5,11 +5,12 @@ using TallerTECService.Models;
 namespace TallerTECService.Controllers
 {
 
-    //LoginsController hereda la clase ControllerBase, utilizada para el manejo
-    //de endpoints.
-    //ApiController identifica a la clase como un controlador en el framework
+    //TallerController hereda la clase ControllerBase, utilizada para el manejo
+    //del endpoints.
+    //ApiController identifica a la clase como un controlador en el framework.
+    //TallerController se encarga de manejar el endpoint que permite a los usuarios hacer login.
     //Route especifica la ruta para este controlador. En este caso local:
-    //http://localhost:5075/api/controller
+    //http://localhost:5075/api/login
     
     [Route("api/login")]
     [ApiController]
@@ -43,6 +44,9 @@ namespace TallerTECService.Controllers
 
     }
 
+    //WorkerController Se encarga de manejar operaciones CRUD para los trabajadores registrados.
+    //Route especifica la ruta para este controlador. En este caso local:
+    //http://localhost:5075/api/manage/worker
     [Route("api/manage/worker")]
     [ApiController]
     public class WorkerController : ControllerBase
@@ -54,7 +58,7 @@ namespace TallerTECService.Controllers
             _repository = repository;
         }
         
-        // GET api/manage/worker
+        // GET api/manage/worker/all
         [HttpGet("all")]
         public ActionResult<IEnumerable<Trabajador>> GetAllWorkers()
         {
@@ -64,6 +68,7 @@ namespace TallerTECService.Controllers
 
         }
 
+        // DELETE api/manage/worker
         [HttpDelete]
         public ActionResult<ActionResponse> DeleteWorker(IdRequest deletionId)
         {
@@ -83,6 +88,7 @@ namespace TallerTECService.Controllers
 
         }
 
+        // PATCH api/manage/worker
         [HttpPatch]
         public ActionResult<ActionResponse> ModifyWorker(Trabajador newWorker)
         {
