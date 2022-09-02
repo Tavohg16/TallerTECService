@@ -73,18 +73,18 @@ namespace TallerTECService.Data
             var workerList = getAllWorkers();
             var itemToDelete = workerList.SingleOrDefault(e => e.cedula == deletionId.cedula);
 
-            if(itemToDelete != null)
+            if (itemToDelete != null)
             {
                 workerList.Remove(itemToDelete);
-            string json = JsonConvert.SerializeObject(workerList.ToArray());
-            System.IO.File.WriteAllText(@"Data/trabajadores.json", json);
-            response.actualizado = true;
-            response.mensaje = "Trabajador eliminado exitosamente";
-            return response;
+                string json = JsonConvert.SerializeObject(workerList.ToArray());
+                System.IO.File.WriteAllText(@"Data/trabajadores.json", json);
+                response.actualizado = true;
+                response.mensaje = "Trabajador eliminado exitosamente";
+                return response;
             }
 
             response.actualizado = false;
-            response.mensaje = "No se encontro un trabajador con la cedula "+deletionId.cedula;
+            response.mensaje = "Error al eliminar, no se encontro un trabajador con la cedula "+deletionId.cedula;
             return response;
 
 
@@ -99,6 +99,29 @@ namespace TallerTECService.Data
                 workerList = JsonConvert.DeserializeObject<List<Trabajador>>(json);
             }
             return workerList;
+        }
+
+        public ActionResponse modifyWorker(Trabajador modifiedWorker)
+        {
+            var response = new ActionResponse();
+            var workerList = getAllWorkers();
+            var itemToModify = workerList.SingleOrDefault(e => e.cedula == modifiedWorker.cedula);
+
+            if (itemToModify != null)
+            {
+                workerList.Remove(itemToModify);
+                workerList.Add(modifiedWorker);
+                string json = JsonConvert.SerializeObject(workerList.ToArray());
+                System.IO.File.WriteAllText(@"Data/trabajadores.json", json);
+                response.actualizado = true;
+                response.mensaje = "Trabajador modificado exitosamente";
+                return response;
+            }
+
+            response.actualizado = false;
+            response.mensaje = "Error al modificar, no se encontro un trabajador con la cedula "+ modifiedWorker.cedula;
+            return response;
+
         }
     }
 }

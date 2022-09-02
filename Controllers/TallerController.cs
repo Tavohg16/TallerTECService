@@ -83,5 +83,14 @@ namespace TallerTECService.Controllers
 
         }
 
+        [HttpPatch]
+        public ActionResult<ActionResponse> ModifyWorker(Trabajador newWorker)
+        {
+
+            var response = _repository.modifyWorker(newWorker);
+            return Ok(response); 
+
+        }
+
     }
 }
