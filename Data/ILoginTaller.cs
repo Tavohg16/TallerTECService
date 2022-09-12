@@ -7,6 +7,10 @@ namespace TallerTECService.Data
     public interface ITallerRepo
     {
         AuthResponse authCheck(LoginData userData);
+        ActionResponse createWorker(Trabajador newWorker);
+        List<Trabajador> getAllWorkers();
+        ActionResponse deleteWorker(IdRequest deletionId);
+        ActionResponse modifyWorker(Trabajador modifiedWorker);
     
         
     }
