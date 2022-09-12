@@ -35,7 +35,8 @@ namespace TallerTECService.Controllers
         public ActionResult<ActionResponse> DeleteCustomer(IdRequest deletionId)
         {
             
-            throw new NotImplementedException();
+            var response = _repository.deleteCustomer(deletionId);
+            return Ok(response);
 
         }
 

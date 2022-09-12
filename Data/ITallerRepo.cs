@@ -13,6 +13,7 @@ namespace TallerTECService.Data
         ActionResponse deleteWorker(IdRequest deletionId);
         ActionResponse createCustomer(Cliente newCustomer);
         ActionResponse modifyWorker(Trabajador modifiedWorker);
+        ActionResponse deleteCustomer(IdRequest deletionId);
     
         
     }

@@ -178,6 +178,25 @@ namespace TallerTECService.Data
             return response;
         }
 
-        
+        public ActionResponse deleteCustomer(IdRequest deletionId)
+        {
+            var response = new ActionResponse();
+            var customerList = getAllCustomers();
+            var itemToDelete = customerList.SingleOrDefault(e => e.cedula == deletionId.cedula);
+
+            if (itemToDelete != null)
+            {
+                customerList.Remove(itemToDelete);
+                string json = JsonConvert.SerializeObject(customerList.ToArray());
+                System.IO.File.WriteAllText(@"Data/clientes.json", json);
+                response.actualizado = true;
+                response.mensaje = "Cliente eliminado exitosamente";
+                return response;
+            }
+
+            response.actualizado = false;
+            response.mensaje = "Error al eliminar, no se encontro un trabajador con la cedula "+deletionId.cedula;
+            return response;
+        }
     }
 }
