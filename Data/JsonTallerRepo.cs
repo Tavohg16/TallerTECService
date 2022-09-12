@@ -123,5 +123,16 @@ namespace TallerTECService.Data
             return response;
 
         }
+
+        public List<Cliente> getAllCustomers()
+        {
+            List<Cliente> customerList = new List<Cliente>();
+            using (StreamReader r = new StreamReader("Data/clientes.json"))
+            {
+                string json = r.ReadToEnd();
+                customerList = JsonConvert.DeserializeObject<List<Cliente>>(json);
+            }
+            return customerList;
+        }
     }
 }

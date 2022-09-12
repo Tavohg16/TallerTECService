@@ -1,0 +1,36 @@
+[
+    {
+        "cedula": "103450543",
+        "usuario": "clienteA",
+        "nombre": "Jose",
+        "primer_apellido": "Mora",
+        "segundo_apellido": "Vega",
+        "telefonos": [
+            "123456",
+            "78901"
+        ],
+        "contrasena": "abcde123",
+        "correo": "jjjj@gmail.com",
+        "direcciones": [
+            "aqui",
+            "alla"
+        ]
+    },
+    {
+        "cedula": "203450673",
+        "usuario": "clienteB",
+        "nombre": "Maria",
+        "primer_apellido": "Araya",
+        "segundo_apellido": "Solano",
+        "telefonos": [
+            "123456",
+            "78901"
+        ],
+        "contrasena": "abcde123",
+        "correo": "bbbb@gmail.com",
+        "direcciones": [
+            "aqui",
+            "alla"
+        ]
+    }
+]

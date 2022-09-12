@@ -25,35 +25,36 @@ namespace TallerTECService.Controllers
         public ActionResult<IEnumerable<Cliente>> GetAllCustomers()
         {
 
-            //not implemented
+            var allCustomers = _repository.getAllCustomers();
+            return Ok(allCustomers);
 
         }
 
         // DELETE api/manage/customer
-        [HttpDelete]
-        public ActionResult<ActionResponse> DeleteCustomer(IdRequest deletionId)
-        {
+        // [HttpDelete]
+        // public ActionResult<ActionResponse> DeleteCustomer(IdRequest deletionId)
+        // {
             
-            //not implemented
+        //     //not implemented
 
-        }
+        // }
 
-        // POST api/manage/customer
-        [HttpPost]
-        public ActionResult<ActionResponse> CreateCustomer(Cliente newCustomer)
-        {
+        // // POST api/manage/customer
+        // [HttpPost]
+        // public ActionResult<ActionResponse> CreateCustomer(Cliente newCustomer)
+        // {
 
-            //not implemented
+        //     //not implemented
 
-        }
+        // }
 
-        // PATCH api/manage/customer
-        [HttpPatch]
-        public ActionResult<ActionResponse> ModifyWorker(Cliente newCustomer)
-        {
+        // // PATCH api/manage/customer
+        // [HttpPatch]
+        // public ActionResult<ActionResponse> ModifyWorker(Cliente newCustomer)
+        // {
 
-            //not implemented
-        }
+        //     //not implemented
+        // }
 
     }
 }
