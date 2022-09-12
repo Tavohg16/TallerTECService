@@ -178,6 +178,8 @@ namespace TallerTECService.Data
             return response;
         }
 
+        
+
         public ActionResponse deleteCustomer(IdRequest deletionId)
         {
             var response = new ActionResponse();
@@ -198,5 +200,29 @@ namespace TallerTECService.Data
             response.mensaje = "Error al eliminar, no se encontro un trabajador con la cedula "+deletionId.cedula;
             return response;
         }
+
+        public ActionResponse modifyCustomer(Cliente modifiedCustomer)
+        {
+            var response = new ActionResponse();
+            var customerList = getAllCustomers();
+            var itemToModify = customerList.SingleOrDefault(e => e.cedula == modifiedCustomer.cedula);
+
+            if (itemToModify != null)
+            {
+                customerList.Remove(itemToModify);
+                customerList.Add(modifiedCustomer);
+                string json = JsonConvert.SerializeObject(customerList.ToArray());
+                System.IO.File.WriteAllText(@"Data/clientes.json", json);
+                response.actualizado = true;
+                response.mensaje = "Cliente modificado exitosamente";
+                return response;
+            }
+
+            response.actualizado = false;
+            response.mensaje = "Error al modificar, no se encontro un cliente con la cedula "+ modifiedCustomer.cedula;
+            return response;
+        }
+
+        
     }
 }

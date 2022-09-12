@@ -55,7 +55,8 @@ namespace TallerTECService.Controllers
         public ActionResult<ActionResponse> ModifyWorker(Cliente newCustomer)
         {
 
-            throw new NotImplementedException();
+            var response = _repository.modifyCustomer(newCustomer);
+            return Ok(response); 
 
         }
 
