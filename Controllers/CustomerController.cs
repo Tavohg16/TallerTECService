@@ -31,30 +31,32 @@ namespace TallerTECService.Controllers
         }
 
         // DELETE api/manage/customer
-        // [HttpDelete]
-        // public ActionResult<ActionResponse> DeleteCustomer(IdRequest deletionId)
-        // {
+        [HttpDelete]
+        public ActionResult<ActionResponse> DeleteCustomer(IdRequest deletionId)
+        {
             
-        //     //not implemented
+            throw new NotImplementedException();
 
-        // }
+        }
 
-        // // POST api/manage/customer
-        // [HttpPost]
-        // public ActionResult<ActionResponse> CreateCustomer(Cliente newCustomer)
-        // {
+        // POST api/manage/customer
+        [HttpPost]
+        public ActionResult<ActionResponse> CreateCustomer(Cliente newCustomer)
+        {
 
-        //     //not implemented
+            var response = _repository.createCustomer(newCustomer);
+            return Ok(response); 
 
-        // }
+        }
 
-        // // PATCH api/manage/customer
-        // [HttpPatch]
-        // public ActionResult<ActionResponse> ModifyWorker(Cliente newCustomer)
-        // {
+        // PATCH api/manage/customer
+        [HttpPatch]
+        public ActionResult<ActionResponse> ModifyWorker(Cliente newCustomer)
+        {
 
-        //     //not implemented
-        // }
+            throw new NotImplementedException();
+
+        }
 
     }
 }

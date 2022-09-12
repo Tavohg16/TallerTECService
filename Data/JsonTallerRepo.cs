@@ -1,5 +1,7 @@
+using MlkPwgen;
 using Newtonsoft.Json;
 using TallerTECService.Models;
+
 
 namespace TallerTECService.Data
 {
@@ -134,5 +136,48 @@ namespace TallerTECService.Data
             }
             return customerList;
         }
+
+        public ActionResponse createCustomer(Cliente newCustomer)
+        {
+            var response = new ActionResponse();
+            var customerList = getAllCustomers();
+            var checkId = customerList.AsQueryable().Where(e => e.cedula == newCustomer.cedula).FirstOrDefault();
+
+            if(checkId != null)
+            {
+                response.actualizado=false;
+                response.mensaje="Error al crear el cliente, ya existe un trabajador con la cedula "+checkId.cedula;
+                return response;
+            }
+            
+            var checkUser = customerList.AsQueryable().Where(e => e.usuario == newCustomer.usuario).FirstOrDefault();
+
+            if(checkUser != null)
+            {
+                response.actualizado=false;
+                response.mensaje="Error al crear el cliente, ya existe el nombre de usuario";
+                return response;
+            }
+
+            var checkEmail = customerList.AsQueryable().Where(e => e.correo == newCustomer.correo).FirstOrDefault();
+
+            if(checkEmail != null)
+            {
+                response.actualizado=false;
+                response.mensaje="Error al crear el cliente, ya existe un usuario con la direccion de correo brindada";
+                return response;
+            }
+            
+            
+            newCustomer.contrasena = PasswordGenerator.Generate();
+            customerList.Add(newCustomer);
+            string json = JsonConvert.SerializeObject(customerList.ToArray());
+            System.IO.File.WriteAllText(@"Data/clientes.json", json);
+            response.actualizado=true;
+            response.mensaje="Cliente creado exitosamente";
+            return response;
+        }
+
+        
     }
 }
