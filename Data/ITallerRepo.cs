@@ -9,8 +9,12 @@ namespace TallerTECService.Data
         AuthResponse authCheck(LoginData userData);
         ActionResponse createWorker(Trabajador newWorker);
         List<Trabajador> getAllWorkers();
+        List<Cliente> getAllCustomers();
         ActionResponse deleteWorker(IdRequest deletionId);
+        ActionResponse createCustomer(Cliente newCustomer);
         ActionResponse modifyWorker(Trabajador modifiedWorker);
+        ActionResponse deleteCustomer(IdRequest deletionId);
+        ActionResponse modifyCustomer(Cliente modifiedCustomer);
     
         
     }
