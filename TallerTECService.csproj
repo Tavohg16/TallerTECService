@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.45" />
     <PackageReference Include="JsonFlatFileDataStore" Version="2.3.0" />
     <PackageReference Include="MlkPwgen" Version="0.3.0" />
     <PackageReference Include="Spire.Email" Version="5.8.0" />
