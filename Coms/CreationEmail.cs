@@ -6,10 +6,14 @@ using TallerTECService.Models;
 
 namespace TallerTECService.Coms
 {
+
+    //Esta clase hace uso de las librerias HtmlAgilityPack (Para modificar el archivo HTML que se envia por correo a los clientes, personalizando con sus datos)
+    //y la libreria Spire.Email para hacer el envio del correo usando protocolo smtp
     public static class EmailSender
     {
         public static void SendCreationEmail(Cliente customer)
         {
+            
             MailAddress sender = "tallertec.noreply@gmail.com";
             MailAddress recipient = customer.correo;
             MailMessage message = new MailMessage(sender,recipient);
