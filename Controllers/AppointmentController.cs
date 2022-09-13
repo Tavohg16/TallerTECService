@@ -25,7 +25,7 @@ namespace TallerTECService.Controllers
         
         // POST api/manage/appointment
         [HttpPost]
-        public ActionResult<ActionResponse> CreateAppointment(Trabajador newAppointment)
+        public ActionResult<ActionResponse> CreateAppointment(Appointment newAppointment)
         {
 
             throw new NotImplementedException();
