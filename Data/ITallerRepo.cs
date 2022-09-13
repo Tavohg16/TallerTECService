@@ -15,6 +15,7 @@ namespace TallerTECService.Data
         ActionResponse modifyWorker(Trabajador modifiedWorker);
         ActionResponse deleteCustomer(IdRequest deletionId);
         ActionResponse modifyCustomer(Cliente modifiedCustomer);
+        ActionResponse createAppointment(Appointment newAppointment);
     
         
     }

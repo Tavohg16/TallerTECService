@@ -223,6 +223,9 @@ namespace TallerTECService.Data
             return response;
         }
 
-        
+        public ActionResponse createAppointment(Appointment newAppointment)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
