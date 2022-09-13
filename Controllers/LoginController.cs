@@ -28,13 +28,13 @@ namespace TallerTECService.Controllers
         public ActionResult<AuthResponse> Authenticate(LoginData loginData)
         {
 
-            var auth = _repository.authCheck(loginData);
-            if(auth.authenticated){
-                return Ok(auth);
+            var response = _repository.AuthCheck(loginData);
+            if(response.authenticated){
+                return Ok(response);
             }
             else
             {
-                return Unauthorized(auth);
+                return Unauthorized(response);
             }
             
             

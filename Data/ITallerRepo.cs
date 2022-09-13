@@ -6,16 +6,17 @@ namespace TallerTECService.Data
     //implementacion del repositorio que maneja la logica de la solucion.
     public interface ITallerRepo
     {
-        AuthResponse authCheck(LoginData userData);
-        ActionResponse createWorker(Trabajador newWorker);
-        List<Trabajador> getAllWorkers();
-        List<Cliente> getAllCustomers();
-        ActionResponse deleteWorker(IdRequest deletionId);
-        ActionResponse createCustomer(Cliente newCustomer);
-        ActionResponse modifyWorker(Trabajador modifiedWorker);
-        ActionResponse deleteCustomer(IdRequest deletionId);
-        ActionResponse modifyCustomer(Cliente modifiedCustomer);
-        ActionResponse createAppointment(Appointment newAppointment);
+        AuthResponse AuthCheck(LoginData userData);
+        ActionResponse CreateWorker(Trabajador newWorker);
+        List<Trabajador> GetAllWorkers();
+        List<Cliente> GetAllCustomers();
+        ActionResponse DeleteWorker(IdRequest deletionId);
+        ActionResponse CreateCustomer(Cliente newCustomer);
+        ActionResponse ModifyWorker(Trabajador modifiedWorker);
+        ActionResponse DeleteCustomer(IdRequest deletionId);
+        ActionResponse ModifyCustomer(Cliente modifiedCustomer);
+        ActionResponse CreateAppointment(Appointment newAppointment);
+        List<Appointment> GetAllAppointments();
     
         
     }

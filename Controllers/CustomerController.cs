@@ -27,8 +27,8 @@ namespace TallerTECService.Controllers
         public ActionResult<IEnumerable<Cliente>> GetAllCustomers()
         {
 
-            var allCustomers = _repository.getAllCustomers();
-            return Ok(allCustomers);
+            var response = _repository.GetAllCustomers();
+            return Ok(response);
 
         }
 
@@ -37,7 +37,7 @@ namespace TallerTECService.Controllers
         public ActionResult<ActionResponse> DeleteCustomer(IdRequest deletionId)
         {
             
-            var response = _repository.deleteCustomer(deletionId);
+            var response = _repository.DeleteCustomer(deletionId);
             return Ok(response);
 
         }
@@ -47,7 +47,7 @@ namespace TallerTECService.Controllers
         public ActionResult<ActionResponse> CreateCustomer(Cliente newCustomer)
         {
 
-            var response = _repository.createCustomer(newCustomer);
+            var response = _repository.CreateCustomer(newCustomer);
             return Ok(response); 
 
         }
@@ -57,7 +57,7 @@ namespace TallerTECService.Controllers
         public ActionResult<ActionResponse> ModifyWorker(Cliente newCustomer)
         {
 
-            var response = _repository.modifyCustomer(newCustomer);
+            var response = _repository.ModifyCustomer(newCustomer);
             return Ok(response); 
 
         }

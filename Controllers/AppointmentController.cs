@@ -28,8 +28,17 @@ namespace TallerTECService.Controllers
         public ActionResult<ActionResponse> CreateAppointment(Appointment newAppointment)
         {
 
-            throw new NotImplementedException();
+            var response = _repository.CreateAppointment(newAppointment);
+            return Ok(response);
 
+        }
+
+        //GET api/manage/appointment/all
+        [HttpGet("all")]
+        public ActionResult<ActionResponse> GetAllAppointments()
+        {
+            var response = _repository.GetAllAppointments();
+            return Ok(response);
         }
 
     }

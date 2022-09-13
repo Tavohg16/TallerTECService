@@ -27,8 +27,8 @@ namespace TallerTECService.Controllers
         public ActionResult<IEnumerable<Trabajador>> GetAllWorkers()
         {
 
-            var allWorkers = _repository.getAllWorkers();
-            return Ok(allWorkers);
+            var response = _repository.GetAllWorkers();
+            return Ok(response);
 
         }
 
@@ -37,7 +37,7 @@ namespace TallerTECService.Controllers
         public ActionResult<ActionResponse> DeleteWorker(IdRequest deletionId)
         {
             
-            var response = _repository.deleteWorker(deletionId);
+            var response = _repository.DeleteWorker(deletionId);
             return Ok(response);
 
         }
@@ -47,7 +47,7 @@ namespace TallerTECService.Controllers
         public ActionResult<ActionResponse> CreateWorker(Trabajador newWorker)
         {
 
-            var response = _repository.createWorker(newWorker);
+            var response = _repository.CreateWorker(newWorker);
             return Ok(response); 
 
         }
@@ -57,7 +57,7 @@ namespace TallerTECService.Controllers
         public ActionResult<ActionResponse> ModifyWorker(Trabajador newWorker)
         {
 
-            var response = _repository.modifyWorker(newWorker);
+            var response = _repository.ModifyWorker(newWorker);
             return Ok(response); 
 
         }

@@ -11,68 +11,68 @@ namespace TallerTECService.Data
     //de la aplicacion.
     public class JsonTallerRepo : ITallerRepo
     {
-        
-        
+
+
         //Logica de autenticacion de usuarios. Hace uso de libreria NewtonSoft.Json para el manejo de la base de datos.
         //Recibe una instancia de LoginData creada con el mensaje entrante desde el cliente en el endpoint POST api/login
         //Retorna una instancia de AuthResponse. 
-        public AuthResponse authCheck(LoginData userData)
+        public AuthResponse AuthCheck(LoginData userData)
         {
             var validation = new AuthResponse();
-            var workerList = getAllWorkers();
-            
+            var workerList = GetAllWorkers();
+
             var worker = workerList.AsQueryable().Where(e => e.cedula == userData.cedula).FirstOrDefault();
 
-            if(worker != null && worker.contrasena == userData.contrasena)
+            if (worker != null && worker.contrasena == userData.contrasena)
             {
-            
+
                 validation.authenticated = true;
             }
             else
             {
                 validation.authenticated = false;
             }
-            
+
             return validation;
 
         }
 
-        public ActionResponse createWorker(Trabajador newWorker)
+        public ActionResponse CreateWorker(Trabajador newWorker)
         {
             var response = new ActionResponse();
-            var workerList = getAllWorkers();
+            var workerList = GetAllWorkers();
             var checkId = workerList.AsQueryable().Where(e => e.cedula == newWorker.cedula).FirstOrDefault();
 
-            if(checkId != null)
+            if (checkId != null)
             {
-                response.actualizado=false;
-                response.mensaje="Error al crear el trabajador, ya existe un trabajador con la cedula "+checkId.cedula;
+                response.actualizado = false;
+                response.mensaje = "Error al crear el trabajador, ya existe un trabajador con la cedula " + checkId.cedula;
                 return response;
             }
-            
+
             var checkRole = workerList.AsQueryable().Where(e => e.rol == "Gerente de Sucursal").FirstOrDefault();
 
-            if(checkRole != null && newWorker.rol == "Gerente de Sucursal")
+            if (checkRole != null && newWorker.rol == "Gerente de Sucursal")
             {
-                response.actualizado=false;
-                response.mensaje="Error al crear el trabajador, ya existe un gerente de sucursal";
+                response.actualizado = false;
+                response.mensaje = "Error al crear el trabajador, ya existe un gerente de sucursal";
                 return response;
             }
-            
+
 
             workerList.Add(newWorker);
             string json = JsonConvert.SerializeObject(workerList.ToArray());
             System.IO.File.WriteAllText(@"Data/trabajadores.json", json);
-            response.actualizado=true;
-            response.mensaje="Trabajador creado exitosamente";
+            response.actualizado = true;
+            response.mensaje = "Trabajador creado exitosamente";
             return response;
 
         }
 
-        public ActionResponse deleteWorker(IdRequest deletionId)
+        public ActionResponse DeleteWorker(IdRequest deletionId)
         {
             var response = new ActionResponse();
-            var workerList = getAllWorkers();
+            var workerList = GetAllWorkers();
             var itemToDelete = workerList.SingleOrDefault(e => e.cedula == deletionId.cedula);
 
             if (itemToDelete != null)
@@ -86,13 +86,13 @@ namespace TallerTECService.Data
             }
 
             response.actualizado = false;
-            response.mensaje = "Error al eliminar, no se encontro un trabajador con la cedula "+deletionId.cedula;
+            response.mensaje = "Error al eliminar, no se encontro un trabajador con la cedula " + deletionId.cedula;
             return response;
 
 
         }
 
-        public List<Trabajador> getAllWorkers()
+        public List<Trabajador> GetAllWorkers()
         {
             List<Trabajador> workerList = new List<Trabajador>();
             using (StreamReader r = new StreamReader("Data/trabajadores.json"))
@@ -103,10 +103,10 @@ namespace TallerTECService.Data
             return workerList;
         }
 
-        public ActionResponse modifyWorker(Trabajador modifiedWorker)
+        public ActionResponse ModifyWorker(Trabajador modifiedWorker)
         {
             var response = new ActionResponse();
-            var workerList = getAllWorkers();
+            var workerList = GetAllWorkers();
             var itemToModify = workerList.SingleOrDefault(e => e.cedula == modifiedWorker.cedula);
 
             if (itemToModify != null)
@@ -121,12 +121,12 @@ namespace TallerTECService.Data
             }
 
             response.actualizado = false;
-            response.mensaje = "Error al modificar, no se encontro un trabajador con la cedula "+ modifiedWorker.cedula;
+            response.mensaje = "Error al modificar, no se encontro un trabajador con la cedula " + modifiedWorker.cedula;
             return response;
 
         }
 
-        public List<Cliente> getAllCustomers()
+        public List<Cliente> GetAllCustomers()
         {
             List<Cliente> customerList = new List<Cliente>();
             using (StreamReader r = new StreamReader("Data/clientes.json"))
@@ -137,53 +137,53 @@ namespace TallerTECService.Data
             return customerList;
         }
 
-        public ActionResponse createCustomer(Cliente newCustomer)
+        public ActionResponse CreateCustomer(Cliente newCustomer)
         {
             var response = new ActionResponse();
-            var customerList = getAllCustomers();
+            var customerList = GetAllCustomers();
             var checkId = customerList.AsQueryable().Where(e => e.cedula == newCustomer.cedula).FirstOrDefault();
 
-            if(checkId != null)
+            if (checkId != null)
             {
-                response.actualizado=false;
-                response.mensaje="Error al crear el cliente, ya existe un trabajador con la cedula "+checkId.cedula;
+                response.actualizado = false;
+                response.mensaje = "Error al crear el cliente, ya existe un trabajador con la cedula " + checkId.cedula;
                 return response;
             }
-            
+
             var checkUser = customerList.AsQueryable().Where(e => e.usuario == newCustomer.usuario).FirstOrDefault();
 
-            if(checkUser != null)
+            if (checkUser != null)
             {
-                response.actualizado=false;
-                response.mensaje="Error al crear el cliente, ya existe el nombre de usuario";
+                response.actualizado = false;
+                response.mensaje = "Error al crear el cliente, ya existe el nombre de usuario";
                 return response;
             }
 
             var checkEmail = customerList.AsQueryable().Where(e => e.correo == newCustomer.correo).FirstOrDefault();
 
-            if(checkEmail != null)
+            if (checkEmail != null)
             {
-                response.actualizado=false;
-                response.mensaje="Error al crear el cliente, ya existe un usuario con la direccion de correo brindada";
+                response.actualizado = false;
+                response.mensaje = "Error al crear el cliente, ya existe un usuario con la direccion de correo brindada";
                 return response;
             }
-            
-            
+
+
             newCustomer.contrasena = PasswordGenerator.Generate();
             customerList.Add(newCustomer);
             string json = JsonConvert.SerializeObject(customerList.ToArray());
             System.IO.File.WriteAllText(@"Data/clientes.json", json);
-            response.actualizado=true;
-            response.mensaje="Cliente creado exitosamente";
+            response.actualizado = true;
+            response.mensaje = "Cliente creado exitosamente";
             return response;
         }
 
-        
 
-        public ActionResponse deleteCustomer(IdRequest deletionId)
+
+        public ActionResponse DeleteCustomer(IdRequest deletionId)
         {
             var response = new ActionResponse();
-            var customerList = getAllCustomers();
+            var customerList = GetAllCustomers();
             var itemToDelete = customerList.SingleOrDefault(e => e.cedula == deletionId.cedula);
 
             if (itemToDelete != null)
@@ -197,14 +197,14 @@ namespace TallerTECService.Data
             }
 
             response.actualizado = false;
-            response.mensaje = "Error al eliminar, no se encontro un trabajador con la cedula "+deletionId.cedula;
+            response.mensaje = "Error al eliminar, no se encontro un trabajador con la cedula " + deletionId.cedula;
             return response;
         }
 
-        public ActionResponse modifyCustomer(Cliente modifiedCustomer)
+        public ActionResponse ModifyCustomer(Cliente modifiedCustomer)
         {
             var response = new ActionResponse();
-            var customerList = getAllCustomers();
+            var customerList = GetAllCustomers();
             var itemToModify = customerList.SingleOrDefault(e => e.cedula == modifiedCustomer.cedula);
 
             if (itemToModify != null)
@@ -219,13 +219,52 @@ namespace TallerTECService.Data
             }
 
             response.actualizado = false;
-            response.mensaje = "Error al modificar, no se encontro un cliente con la cedula "+ modifiedCustomer.cedula;
+            response.mensaje = "Error al modificar, no se encontro un cliente con la cedula " + modifiedCustomer.cedula;
             return response;
         }
 
-        public ActionResponse createAppointment(Appointment newAppointment)
+        public List<Appointment> GetAllAppointments()
         {
-            throw new NotImplementedException();
+            List<Appointment> appList = new List<Appointment>();
+            using (StreamReader r = new StreamReader("Data/citas.json"))
+            {
+                string json = r.ReadToEnd();
+                appList = JsonConvert.DeserializeObject<List<Appointment>>(json);
+            }
+            return appList;
         }
+
+        public ActionResponse CreateAppointment(Appointment newAppointment)
+        {
+            var response = new ActionResponse();
+            var appList = GetAllAppointments();
+            var customerList = GetAllCustomers();
+            var checkId = customerList.AsQueryable().Where(e => e.cedula == newAppointment.cedula_cliente).FirstOrDefault();
+
+            if (checkId != null)
+            {
+                appList.Add(newAppointment);
+                string json = JsonConvert.SerializeObject(appList.ToArray());
+                System.IO.File.WriteAllText(@"Data/citas.json", json);
+                response.actualizado = true;
+                response.mensaje = "Cita creada exitosamente";
+                return response;
+            }
+            else
+            {
+                response.actualizado = false;
+                response.mensaje = "Error al crear la cita, no existe un cliente con la cedula " + newAppointment.cedula_cliente;
+                return response;
+
+            }
+
+        }
+
+
+
+
     }
+
 }
+
+
