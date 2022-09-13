@@ -5,7 +5,9 @@ using TallerTECService.Models;
 namespace TallerTECService.Controllers
 {
 
-
+    //WorkerController hereda la clase ControllerBase, utilizada para el manejo
+    //del endpoints.
+    //ApiController identifica a la clase como un controlador en el framework.
     //WorkerController Se encarga de manejar operaciones CRUD para los trabajadores registrados.
     //Route especifica la ruta para este controlador. En este caso local:
     //http://localhost:5075/api/manage/worker

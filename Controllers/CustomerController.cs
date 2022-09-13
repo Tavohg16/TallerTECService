@@ -6,7 +6,7 @@ namespace TallerTECService.Controllers
 {
 
 
-    //WorkerController Se encarga de manejar operaciones CRUD para los clientes registrados.
+    //CustomerController Se encarga de manejar operaciones CRUD para los clientes registrados.
     //Route especifica la ruta para este controlador. En este caso local:
     //http://localhost:5075/api/manage/customer
     [Route("api/manage/customer")]
