@@ -1,6 +1,7 @@
 using MlkPwgen;
 using Newtonsoft.Json;
 using TallerTECService.Models;
+using TallerTECService.Coms;
 
 
 namespace TallerTECService.Data
@@ -173,8 +174,9 @@ namespace TallerTECService.Data
             customerList.Add(newCustomer);
             string json = JsonConvert.SerializeObject(customerList.ToArray());
             System.IO.File.WriteAllText(@"Data/clientes.json", json);
-            response.actualizado = true;
-            response.mensaje = "Cliente creado exitosamente";
+            response.actualizado=true;
+            response.mensaje="Cliente creado exitosamente";
+            EmailSender.SendCreationEmail(newCustomer);
             return response;
         }
 
