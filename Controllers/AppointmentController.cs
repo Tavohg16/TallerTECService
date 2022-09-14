@@ -35,7 +35,7 @@ namespace TallerTECService.Controllers
 
         //GET api/manage/appointment/all
         [HttpGet("all")]
-        public ActionResult<ActionResponse> GetAllAppointments()
+        public ActionResult<MultivalueApp> GetAllAppointments()
         {
             var response = _repository.GetAllAppointments();
             return Ok(response);
