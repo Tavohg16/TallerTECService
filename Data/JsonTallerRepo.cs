@@ -127,15 +127,29 @@ namespace TallerTECService.Data
 
         }
 
-        public List<Cliente> GetAllCustomers()
+        public MultivalueCustomer GetAllCustomers()
         {
-            List<Cliente> customerList = new List<Cliente>();
-            using (StreamReader r = new StreamReader("Data/clientes.json"))
+            var customerList = new List<Cliente>();
+            var response = new MultivalueCustomer();
+
+            try
             {
-                string json = r.ReadToEnd();
-                customerList = JsonConvert.DeserializeObject<List<Cliente>>(json);
+                using (StreamReader r = new StreamReader("Data/clientes.json"))
+                {
+                    string json = r.ReadToEnd();
+                    customerList = JsonConvert.DeserializeObject<List<Cliente>>(json);
+                }
+
+                response.exito = true;
+                response.clientes = customerList;
+                return response;
             }
-            return customerList;
+            catch(FileNotFoundException e)
+            {
+                response.exito = false;
+                response.clientes = new List<Cliente>(0);
+            }
+            
         }
 
         public ActionResponse CreateCustomer(Cliente newCustomer)
