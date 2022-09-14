@@ -4,10 +4,10 @@ using TallerTECService.Models;
 
 namespace TallerTECService.Controllers
 {
-    //TallerController hereda la clase ControllerBase, utilizada para el manejo
+    //LoginController hereda la clase ControllerBase, utilizada para el manejo
     //del endpoints.
     //ApiController identifica a la clase como un controlador en el framework.
-    //TallerController se encarga de manejar el endpoint que permite a los usuarios hacer login.
+    //LoginController se encarga de manejar el endpoint que permite a los usuarios hacer login.
     //Route especifica la ruta para este controlador. En este caso local:
     //http://localhost:5075/api/login
     
@@ -28,13 +28,13 @@ namespace TallerTECService.Controllers
         public ActionResult<AuthResponse> Authenticate(LoginData loginData)
         {
 
-            var auth = _repository.authCheck(loginData);
-            if(auth.authenticated){
-                return Ok(auth);
+            var response = _repository.AuthCheck(loginData);
+            if(response.authenticated){
+                return Ok(response);
             }
             else
             {
-                return Unauthorized(auth);
+                return Unauthorized(response);
             }
             
             
