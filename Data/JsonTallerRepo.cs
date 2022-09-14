@@ -241,22 +241,40 @@ namespace TallerTECService.Data
             return response;
         }
 
-        public List<Appointment> GetAllAppointments()
+        public MultivalueApp GetAllAppointments()
         {
-            List<Appointment> appList = new List<Appointment>();
-            using (StreamReader r = new StreamReader("Data/citas.json"))
+            var appList = new List<Appointment>();
+            var response = new MultivalueApp();
+
+            try
             {
-                string json = r.ReadToEnd();
-                appList = JsonConvert.DeserializeObject<List<Appointment>>(json);
+                using (StreamReader r = new StreamReader("Data/citas.json"))
+                {
+                    string json = r.ReadToEnd();
+                    appList = JsonConvert.DeserializeObject<List<Appointment>>(json);
+                }
+
+                response.exito = true;
+                response.citas = appList;
+                return response;
             }
-            return appList;
+            catch(FileNotFoundException e)
+            {
+                response.exito = false;
+                response.citas = new List<Appointment>(0);
+                Console.WriteLine("ERROR: "+e.Message);
+                return response;
+            }
+
+            
         }
 
         public ActionResponse CreateAppointment(Appointment newAppointment)
         {
             var response = new ActionResponse();
-            var appList = GetAllAppointments();
+            var appList = GetAllAppointments().citas;
             var customerList = GetAllCustomers().clientes;
+
             var checkId = customerList.AsQueryable().Where(e => e.cedula == newAppointment.cedula_cliente).FirstOrDefault();
 
             if (checkId != null)
