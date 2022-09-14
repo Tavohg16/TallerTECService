@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using TallerTECService.Data;
 using TallerTECService.Models;
@@ -13,6 +14,7 @@ namespace TallerTECService.Controllers
     
     [Route("api/manage/appointment")]
     [ApiController]
+    [EnableCors("Policy")]
     public class AppointmentController : ControllerBase
     {
         private readonly ITallerRepo _repository;

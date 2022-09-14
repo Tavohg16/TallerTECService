@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using TallerTECService.Data;
 using TallerTECService.Models;
@@ -13,6 +14,7 @@ namespace TallerTECService.Controllers
     //http://localhost:5075/api/manage/worker
     [Route("api/manage/worker")]
     [ApiController]
+    [EnableCors("Policy")]
     public class WorkerController : ControllerBase
     {
         private readonly ITallerRepo _repository;
