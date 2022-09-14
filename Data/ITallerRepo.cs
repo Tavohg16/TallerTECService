@@ -16,7 +16,7 @@ namespace TallerTECService.Data
         ActionResponse DeleteCustomer(IdRequest deletionId);
         ActionResponse ModifyCustomer(Cliente modifiedCustomer);
         ActionResponse CreateAppointment(Appointment newAppointment);
-        List<Appointment> GetAllAppointments();
+        MultivalueApp GetAllAppointments();
     
         
     }
