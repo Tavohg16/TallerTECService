@@ -24,7 +24,7 @@ namespace TallerTECService.Controllers
         
         // GET api/manage/customer/all
         [HttpGet("all")]
-        public ActionResult<MultivalueCustomer> GetAllCustomers()
+        public ActionResult<IEnumerable<Cliente>> GetAllCustomers()
         {
 
             var response = _repository.GetAllCustomers();
