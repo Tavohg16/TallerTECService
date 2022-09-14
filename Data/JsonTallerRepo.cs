@@ -146,7 +146,7 @@ namespace TallerTECService.Data
             if (checkId != null)
             {
                 response.actualizado = false;
-                response.mensaje = "Error al crear el cliente, ya existe un trabajador con la cedula " + checkId.cedula;
+                response.mensaje = "Error al crear el cliente, ya existe un cliente con la cedula " + checkId.cedula;
                 return response;
             }
 
@@ -197,7 +197,7 @@ namespace TallerTECService.Data
             }
 
             response.actualizado = false;
-            response.mensaje = "Error al eliminar, no se encontro un trabajador con la cedula " + deletionId.cedula;
+            response.mensaje = "Error al eliminar, no se encontro un cliente con la cedula " + deletionId.cedula;
             return response;
         }
 
