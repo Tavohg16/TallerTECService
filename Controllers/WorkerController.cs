@@ -24,7 +24,7 @@ namespace TallerTECService.Controllers
         
         // GET api/manage/worker/all
         [HttpGet("all")]
-        public ActionResult<IEnumerable<Trabajador>> GetAllWorkers()
+        public ActionResult<MultivalueWorker> GetAllWorkers()
         {
 
             var response = _repository.GetAllWorkers();
