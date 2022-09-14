@@ -127,21 +127,37 @@ namespace TallerTECService.Data
 
         }
 
-        public List<Cliente> GetAllCustomers()
+        public MultivalueCustomer GetAllCustomers()
         {
-            List<Cliente> customerList = new List<Cliente>();
-            using (StreamReader r = new StreamReader("Data/clientes.json"))
+            var customerList = new List<Cliente>();
+            var response = new MultivalueCustomer();
+
+            try
             {
-                string json = r.ReadToEnd();
-                customerList = JsonConvert.DeserializeObject<List<Cliente>>(json);
+                using (StreamReader r = new StreamReader("Data/clientes.json"))
+                {
+                    string json = r.ReadToEnd();
+                    customerList = JsonConvert.DeserializeObject<List<Cliente>>(json);
+                }
+
+                response.exito = true;
+                response.clientes = customerList;
+                return response;
             }
-            return customerList;
+            catch(FileNotFoundException e)
+            {
+                response.exito = false;
+                response.clientes = new List<Cliente>(0);
+                Console.WriteLine("ERROR: " + e.Message);
+                return response;
+            }
+            
         }
 
         public ActionResponse CreateCustomer(Cliente newCustomer)
         {
             var response = new ActionResponse();
-            var customerList = GetAllCustomers();
+            var customerList = GetAllCustomers().clientes;
             var checkId = customerList.AsQueryable().Where(e => e.cedula == newCustomer.cedula).FirstOrDefault();
 
             if (checkId != null)
@@ -185,7 +201,7 @@ namespace TallerTECService.Data
         public ActionResponse DeleteCustomer(IdRequest deletionId)
         {
             var response = new ActionResponse();
-            var customerList = GetAllCustomers();
+            var customerList = GetAllCustomers().clientes;
             var itemToDelete = customerList.SingleOrDefault(e => e.cedula == deletionId.cedula);
 
             if (itemToDelete != null)
@@ -206,7 +222,7 @@ namespace TallerTECService.Data
         public ActionResponse ModifyCustomer(Cliente modifiedCustomer)
         {
             var response = new ActionResponse();
-            var customerList = GetAllCustomers();
+            var customerList = GetAllCustomers().clientes;
             var itemToModify = customerList.SingleOrDefault(e => e.cedula == modifiedCustomer.cedula);
 
             if (itemToModify != null)
@@ -240,7 +256,7 @@ namespace TallerTECService.Data
         {
             var response = new ActionResponse();
             var appList = GetAllAppointments();
-            var customerList = GetAllCustomers();
+            var customerList = GetAllCustomers().clientes;
             var checkId = customerList.AsQueryable().Where(e => e.cedula == newAppointment.cedula_cliente).FirstOrDefault();
 
             if (checkId != null)
