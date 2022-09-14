@@ -14,6 +14,18 @@ builder.Services.AddSwaggerGen();
 //constructor en LoginsController
 builder.Services.AddScoped<ITallerRepo, JsonTallerRepo>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Policy",
+    policy =>
+    {
+        policy
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 
 var app = builder.Build();
 
@@ -24,6 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 
 app.UseAuthorization();
 
