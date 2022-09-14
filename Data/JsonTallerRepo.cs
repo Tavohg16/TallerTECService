@@ -20,7 +20,7 @@ namespace TallerTECService.Data
         public AuthResponse AuthCheck(LoginData userData)
         {
             var validation = new AuthResponse();
-            var workerList = GetAllWorkers();
+            var workerList = GetAllWorkers().trabajadores;
 
             var worker = workerList.AsQueryable().Where(e => e.cedula == userData.cedula).FirstOrDefault();
 
@@ -41,7 +41,7 @@ namespace TallerTECService.Data
         public ActionResponse CreateWorker(Trabajador newWorker)
         {
             var response = new ActionResponse();
-            var workerList = GetAllWorkers();
+            var workerList = GetAllWorkers().trabajadores;
             var checkId = workerList.AsQueryable().Where(e => e.cedula == newWorker.cedula).FirstOrDefault();
 
             if (checkId != null)
@@ -73,7 +73,7 @@ namespace TallerTECService.Data
         public ActionResponse DeleteWorker(IdRequest deletionId)
         {
             var response = new ActionResponse();
-            var workerList = GetAllWorkers();
+            var workerList = GetAllWorkers().trabajadores;
             var itemToDelete = workerList.SingleOrDefault(e => e.cedula == deletionId.cedula);
 
             if (itemToDelete != null)
@@ -93,21 +93,39 @@ namespace TallerTECService.Data
 
         }
 
-        public List<Trabajador> GetAllWorkers()
+        public MultivalueWorker GetAllWorkers()
         {
-            List<Trabajador> workerList = new List<Trabajador>();
-            using (StreamReader r = new StreamReader("Data/trabajadores.json"))
+            var workerList = new List<Trabajador>();
+            var response = new MultivalueWorker();
+
+            try
             {
+                using (StreamReader r = new StreamReader("Data/trabajadores.json"))
+                {
                 string json = r.ReadToEnd();
                 workerList = JsonConvert.DeserializeObject<List<Trabajador>>(json);
+                }
+
+                response.trabajadores = workerList;
+                response.exito = true;
+                return response;
+
             }
-            return workerList;
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("ERROR: " + e.Message);
+                response.exito = false;
+                response.trabajadores = new List<Trabajador>(0);
+                return response;
+            }
+            
+            
         }
 
         public ActionResponse ModifyWorker(Trabajador modifiedWorker)
         {
             var response = new ActionResponse();
-            var workerList = GetAllWorkers();
+            var workerList = GetAllWorkers().trabajadores;
             var itemToModify = workerList.SingleOrDefault(e => e.cedula == modifiedWorker.cedula);
 
             if (itemToModify != null)
