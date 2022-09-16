@@ -1,13 +1,44 @@
 using HtmlAgilityPack;
 using IronPdf;
+using Newtonsoft.Json;
 using TallerTECService.Models;
 
 namespace TallerTECService.Data.Billing
 {
     public class BillGenerator
     {
-        
-        
+
+
+        public static void RegisterSale(Sale newSale)
+        {
+            var saleList = new List<Sale>();
+            
+
+            try
+            {
+                using (StreamReader r = new StreamReader("Data/ventas.json"))
+                {
+                string json = r.ReadToEnd();
+                saleList = JsonConvert.DeserializeObject<List<Sale>>(json);
+                }
+
+                var checkId = saleList.AsQueryable().Where(e => e.billId == newSale.billId).FirstOrDefault();
+
+                if(checkId == null)
+                {
+                    saleList.Add(newSale);
+                    string newJson = JsonConvert.SerializeObject(saleList.ToArray());
+                    System.IO.File.WriteAllText(@"Data/ventas.json", newJson);
+                }
+                
+
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("ERROR: " + e.Message);
+            }
+        }
+
         public static void ServiceBill(Appointment app, string custName)
         {
             IronPdf.License.LicenseKey =
@@ -21,22 +52,24 @@ namespace TallerTECService.Data.Billing
             var cliente = billDoc.GetElementbyId("cliente");
             cliente.InnerHtml = custName;
             var cedula = billDoc.GetElementbyId("cedula");
-            cedula.InnerHtml = "Cedula: "+app.cedula_cliente;
+            cedula.InnerHtml = "Cedula: " + app.cedula_cliente;
             var placa = billDoc.GetElementbyId("placa");
-            placa.InnerHtml ="Placa: "+app.placa_vehiculo;
+            placa.InnerHtml = "Placa: " + app.placa_vehiculo;
             var id = billDoc.GetElementbyId("id");
-            id.InnerHtml = "Factura #: "+ app.id;
+            id.InnerHtml = "Factura #: " + app.id;
             var fecha = billDoc.GetElementbyId("fecha");
-            fecha.InnerHtml = app.dia_cita+"/"+app.mes_cita+"/"+app.ano_cita;
+            fecha.InnerHtml = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
+            var sucursal = billDoc.GetElementbyId("sucursal");
+            sucursal.InnerHtml ="Sucursal " + app.sucursal;
 
-            populateBill(app,billDoc);
-            
-            
+            populateBill(app, billDoc,custName);
 
-            
+
+
+
         }
 
-        private static void populateBill(Appointment app, HtmlDocument billDoc)
+        private static void populateBill(Appointment app, HtmlDocument billDoc, string custName)
         {
             var servicio = billDoc.GetElementbyId("servicio");
             var descripcionServicio = billDoc.GetElementbyId("descripcion-servicio");
@@ -55,9 +88,9 @@ namespace TallerTECService.Data.Billing
             var subtotal03 = billDoc.GetElementbyId("subtotal01");
             var total = billDoc.GetElementbyId("total");
 
-            if(app.servicio == "aceite")
+            if (app.servicio == "aceite")
             {
-                
+
                 servicio.InnerHtml = "Cambio de aceite";
                 descripcionServicio.InnerHtml = "Cambio del aceite de motor y remplazo de filtro";
                 producto.InnerHtml = "Aceite Acme";
@@ -74,12 +107,22 @@ namespace TallerTECService.Data.Billing
                 unidades03.InnerHtml = "1";
                 subtotal03.InnerHtml = "₡8,900";
                 total.InnerHtml = "₡38,350";
+                var sale = new Sale();
+                sale.cliente = custName;
+                sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
+                sale.monto = 38350;
+                sale.placa = app.placa_vehiculo;
+                sale.servicio = app.servicio;
+                sale.sucursal = app.sucursal;
+                sale.billId = app.id;
+                RegisterSale(sale);
+                
 
             }
 
-            if(app.servicio == "alineado")
+            if (app.servicio == "alineado")
             {
-                
+
                 servicio.InnerHtml = "Alineado y cambio de llantas";
                 descripcionServicio.InnerHtml = "Alineado de llantas y sustitucion por desgaste";
                 producto.InnerHtml = "LLantas Michelin";
@@ -96,18 +139,30 @@ namespace TallerTECService.Data.Billing
                 unidades03.InnerHtml = "1";
                 subtotal03.InnerHtml = "₡55.000";
                 total.InnerHtml = "₡489,000";
+                var sale = new Sale();
+                sale.cliente = custName;
+                sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
+                sale.monto = 489000;
+                sale.placa = app.placa_vehiculo;
+                sale.servicio = app.servicio;
+                sale.sucursal = app.sucursal;
+                sale.billId = app.id;
+                RegisterSale(sale);
 
             }
 
-            
+
             billDoc.Save(@"Data/Billing/BillDoc.html");
             var Renderer = new ChromePdfRenderer();
             var pdf = Renderer.RenderHtmlFileAsPdf("Data/Billing/BillDoc.html");
-            pdf.SaveAs("Data/Billing/Generated/factura-"+app.id+".pdf");
+            pdf.SaveAs("Data/Billing/Generated/factura-" + app.id + ".pdf");
             File.Delete("Data/Billing/BillDoc.html");
         }
 
         
+
     }
+
+
 
 }

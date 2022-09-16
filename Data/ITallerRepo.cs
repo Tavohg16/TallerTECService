@@ -20,7 +20,6 @@ namespace TallerTECService.Data
         MultivalueApp GetAllAppointments();
         ActionResponse CreateBill(BillRequest newBill);
     
-        
     }
 
 }
