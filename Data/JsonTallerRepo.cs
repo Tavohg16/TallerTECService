@@ -428,7 +428,7 @@ namespace TallerTECService.Data
             
             
             response.actualizado = true;
-            response.mensaje = "EN CONSTRUCCION, PDF GENERADO EN PROYECTO TallerTECService";
+            response.mensaje = "Reporte Generado!";
             return response;
             
         }
