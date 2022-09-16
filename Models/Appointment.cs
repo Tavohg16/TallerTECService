@@ -11,5 +11,6 @@ namespace TallerTECService.Models
         public string? placa_vehiculo { get; set; }
         public string? sucursal { get; set; }
         public string? servicio { get; set; }
+        public bool estado { get; set; }
     }
 }
