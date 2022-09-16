@@ -8,29 +8,69 @@ namespace TallerTECService.Data.Billing
     public class BillGenerator
     {
 
+        public static void RegisterPlate(string plate)
+        {
+            var plateList = new List<VisitPlate>();
+
+
+            try
+            {
+                using (StreamReader r = new StreamReader("Data/visitas-placa.json"))
+                {
+                    string json = r.ReadToEnd();
+                    plateList = JsonConvert.DeserializeObject<List<VisitPlate>>(json);
+                }
+
+                var checkId = plateList.AsQueryable().Where(e => e.placa == plate).FirstOrDefault();
+
+                if (checkId == null)
+                {
+                    var visit = new VisitPlate();
+                    visit.placa = plate;
+                    visit.visitas = 1;
+                    plateList.Add(visit);
+                    string newJson = JsonConvert.SerializeObject(plateList.ToArray());
+                    System.IO.File.WriteAllText(@"Data/visitas-placa.json", newJson);
+                }
+                else
+                {
+                    checkId.visitas++;
+                    string newJson = JsonConvert.SerializeObject(plateList.ToArray());
+                    System.IO.File.WriteAllText(@"Data/visitas-placa.json", newJson);
+                }
+
+
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("ERROR: " + e.Message);
+            }
+        }
+
 
         public static void RegisterSale(Sale newSale)
         {
             var saleList = new List<Sale>();
-            
+
 
             try
             {
                 using (StreamReader r = new StreamReader("Data/ventas.json"))
                 {
-                string json = r.ReadToEnd();
-                saleList = JsonConvert.DeserializeObject<List<Sale>>(json);
+                    string json = r.ReadToEnd();
+                    saleList = JsonConvert.DeserializeObject<List<Sale>>(json);
                 }
 
                 var checkId = saleList.AsQueryable().Where(e => e.billId == newSale.billId).FirstOrDefault();
 
-                if(checkId == null)
+                if (checkId == null)
                 {
                     saleList.Add(newSale);
                     string newJson = JsonConvert.SerializeObject(saleList.ToArray());
                     System.IO.File.WriteAllText(@"Data/ventas.json", newJson);
+                    RegisterPlate(newSale.placa);
                 }
-                
+
 
             }
             catch (FileNotFoundException e)
@@ -60,9 +100,9 @@ namespace TallerTECService.Data.Billing
             var fecha = billDoc.GetElementbyId("fecha");
             fecha.InnerHtml = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
             var sucursal = billDoc.GetElementbyId("sucursal");
-            sucursal.InnerHtml ="Sucursal " + app.sucursal;
+            sucursal.InnerHtml = "Sucursal " + app.sucursal;
 
-            populateBill(app, billDoc,custName);
+            populateBill(app, billDoc, custName);
 
 
 
@@ -116,7 +156,7 @@ namespace TallerTECService.Data.Billing
                 sale.sucursal = app.sucursal;
                 sale.billId = app.id;
                 RegisterSale(sale);
-                
+
 
             }
 
@@ -159,7 +199,7 @@ namespace TallerTECService.Data.Billing
             File.Delete("Data/Billing/BillDoc.html");
         }
 
-        
+
 
     }
 
