@@ -2,6 +2,7 @@ using MlkPwgen;
 using Newtonsoft.Json;
 using TallerTECService.Models;
 using TallerTECService.Coms;
+using TallerTECService.Data.Billing;
 
 
 namespace TallerTECService.Data
@@ -145,6 +146,8 @@ namespace TallerTECService.Data
 
         }
 
+        
+
         public MultivalueCustomer GetAllCustomers()
         {
             var customerList = new List<Cliente>();
@@ -170,6 +173,22 @@ namespace TallerTECService.Data
                 return response;
             }
             
+        }
+
+        public Cliente GetCustomer(IdRequest customerId)
+        {
+            var customerList = GetAllCustomers().clientes;
+            var customer = customerList.SingleOrDefault(e => e.cedula == customerId.cedula);
+
+            if (customer != null)
+            {
+                return customer;
+            }
+
+            var invalidCustomer = new Cliente();
+            invalidCustomer.cedula = "NOT FOUND";
+            return invalidCustomer;
+
         }
 
         public ActionResponse CreateCustomer(Cliente newCustomer)
@@ -292,11 +311,30 @@ namespace TallerTECService.Data
             var response = new ActionResponse();
             var appList = GetAllAppointments().citas;
             var customerList = GetAllCustomers().clientes;
+            var workerList = GetAllWorkers().trabajadores;
 
+            
             var checkId = customerList.AsQueryable().Where(e => e.cedula == newAppointment.cedula_cliente).FirstOrDefault();
 
             if (checkId != null)
             {
+                var mechanics = new List<Trabajador>();
+                for (int i = 0; i < workerList.Count; i++)
+                {
+                    var worker = workerList.ElementAt<Trabajador>(i);
+                    
+                    if(worker.rol == "Mecanico")
+                    {
+                        mechanics.Add(worker);
+                    }
+                }
+
+                var random = new System.Random();
+                int index = random.Next(0, mechanics.Count);
+                var name = mechanics.ElementAt<Trabajador>(index).nombre;
+                var lname01 = mechanics.ElementAt<Trabajador>(index).primer_apellido;
+                var lname02 = mechanics.ElementAt<Trabajador>(index).segundo_apellido;
+                newAppointment.mecanico = name+" "+lname01+" "+lname02;
                 appList.Add(newAppointment);
                 string json = JsonConvert.SerializeObject(appList.ToArray());
                 System.IO.File.WriteAllText(@"Data/citas.json", json);
@@ -315,8 +353,32 @@ namespace TallerTECService.Data
         }
 
 
+        public ActionResponse CreateBill(BillRequest newBill)
+        {
+            var response = new ActionResponse();
+            var appList = GetAllAppointments().citas;
+            var checkId = appList.AsQueryable().Where(e => e.id == newBill.id).FirstOrDefault();
 
+            if (checkId != null)
+            {
+                
+                var idRequest = new IdRequest();
+                idRequest.cedula = checkId.cedula_cliente;
+                Cliente customer = GetCustomer(idRequest);
+                string custName =  customer.nombre+" "+customer.primer_apellido+" "+
+                customer.segundo_apellido;
+                BillGenerator.ServiceBill(checkId,custName);
+                response.actualizado = true;
+                response.mensaje = "Factura creada exitosamente";
+                return response;
+            }
 
+            response.actualizado = false;
+            response.mensaje = "Error al crear factura";
+            return response;
+        }
+
+        
     }
 
 }

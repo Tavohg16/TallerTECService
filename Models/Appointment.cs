@@ -2,6 +2,8 @@ namespace TallerTECService.Models
 {
     public class Appointment
     {
+        public string? id { get; set; }
+        public string? mecanico { get; set; }
         public string? cedula_cliente { get; set; }
         public int dia_cita { get; set; }
         public int mes_cita { get; set; }

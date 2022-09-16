@@ -9,14 +9,16 @@ namespace TallerTECService.Data
         AuthResponse AuthCheck(LoginData userData);
         ActionResponse CreateWorker(Trabajador newWorker);
         MultivalueWorker GetAllWorkers();
-        MultivalueCustomer GetAllCustomers();
+        ActionResponse ModifyWorker(Trabajador modifiedWorker);
         ActionResponse DeleteWorker(IdRequest deletionId);
         ActionResponse CreateCustomer(Cliente newCustomer);
-        ActionResponse ModifyWorker(Trabajador modifiedWorker);
+        Cliente GetCustomer(IdRequest customerId);
+        MultivalueCustomer GetAllCustomers();
         ActionResponse DeleteCustomer(IdRequest deletionId);
         ActionResponse ModifyCustomer(Cliente modifiedCustomer);
         ActionResponse CreateAppointment(Appointment newAppointment);
         MultivalueApp GetAllAppointments();
+        ActionResponse CreateBill(BillRequest newBill);
     
         
     }
