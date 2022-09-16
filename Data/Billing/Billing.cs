@@ -47,10 +47,50 @@ namespace TallerTECService.Data.Billing
             }
         }
 
+        public static void RegisterCustomer(string customerId)
+        {
+            var customerList = new List<VisitCustomer>();
+
+
+            try
+            {
+                using (StreamReader r = new StreamReader("Data/visitas-cliente.json"))
+                {
+                    string json = r.ReadToEnd();
+                    customerList = JsonConvert.DeserializeObject<List<VisitCustomer>>(json);
+                }
+
+                var checkId = customerList.AsQueryable().Where(e => e.id == customerId).FirstOrDefault();
+
+                if (checkId == null)
+                {
+                    var visit = new VisitCustomer();
+                    visit.id = customerId;
+                    visit.visitas = 1;
+                    customerList.Add(visit);
+                    string newJson = JsonConvert.SerializeObject(customerList.ToArray());
+                    System.IO.File.WriteAllText(@"Data/visitas-cliente.json", newJson);
+                }
+                else
+                {
+                    checkId.visitas++;
+                    string newJson = JsonConvert.SerializeObject(customerList.ToArray());
+                    System.IO.File.WriteAllText(@"Data/visitas-cliente.json", newJson);
+                }
+
+
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("ERROR: " + e.Message);
+            }
+        }
+
 
         public static void RegisterSale(Sale newSale)
         {
             var saleList = new List<Sale>();
+            var appList = new List<Appointment>();
 
 
             try
@@ -61,14 +101,27 @@ namespace TallerTECService.Data.Billing
                     saleList = JsonConvert.DeserializeObject<List<Sale>>(json);
                 }
 
-                var checkId = saleList.AsQueryable().Where(e => e.billId == newSale.billId).FirstOrDefault();
-
-                if (checkId == null)
+                using (StreamReader r = new StreamReader("Data/citas.json"))
                 {
+                    string json = r.ReadToEnd();
+                    appList = JsonConvert.DeserializeObject<List<Appointment>>(json);
+                }
+
+                var modifyApp = appList.AsQueryable().Where(e => e.id == newSale.billId).FirstOrDefault();
+
+
+                if (newSale.estado)
+                {
+                    newSale.estado = false;
+                    modifyApp.estado = false;
                     saleList.Add(newSale);
+                    string appJson = JsonConvert.SerializeObject(appList.ToArray());
+                    System.IO.File.WriteAllText(@"Data/citas.json", appJson);
                     string newJson = JsonConvert.SerializeObject(saleList.ToArray());
                     System.IO.File.WriteAllText(@"Data/ventas.json", newJson);
                     RegisterPlate(newSale.placa);
+                    RegisterCustomer(newSale.cedula_cliente);
+                    
                 }
 
 
@@ -81,8 +134,6 @@ namespace TallerTECService.Data.Billing
 
         public static void ServiceBill(Appointment app, string custName)
         {
-            IronPdf.License.LicenseKey =
-             "IRONPDF.KEVINBARRANTESCERDAS.879-F95BAADBEC-DQP7PME7TJLXNHV-74QQER3IHGYM-7XI4HD3SDNMA-NV2FWOKZFMQT-42ZDIABO55TN-SDLYZA-THUAW2COXZ2HUA-DEPLOYMENT.TRIAL-7FBTQF.TRIAL.EXPIRES.14.OCT.2022";
 
             HtmlDocument billDoc = new HtmlDocument();
             billDoc.Load(@"Data/Billing/BillBase.html");
@@ -148,13 +199,14 @@ namespace TallerTECService.Data.Billing
                 subtotal03.InnerHtml = "₡8,900";
                 total.InnerHtml = "₡38,350";
                 var sale = new Sale();
-                sale.cliente = custName;
+                sale.cedula_cliente = app.cedula_cliente;
                 sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
                 sale.monto = 38350;
                 sale.placa = app.placa_vehiculo;
                 sale.servicio = app.servicio;
                 sale.sucursal = app.sucursal;
                 sale.billId = app.id;
+                sale.estado = app.estado;
                 RegisterSale(sale);
 
 
@@ -180,7 +232,7 @@ namespace TallerTECService.Data.Billing
                 subtotal03.InnerHtml = "₡55.000";
                 total.InnerHtml = "₡489,000";
                 var sale = new Sale();
-                sale.cliente = custName;
+                sale.cedula_cliente = app.cedula_cliente;
                 sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
                 sale.monto = 489000;
                 sale.placa = app.placa_vehiculo;

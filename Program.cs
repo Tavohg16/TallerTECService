@@ -1,5 +1,7 @@
 using TallerTECService.Data;
 
+IronPdf.License.LicenseKey =
+                "IRONPDF.KEVINBARRANTESCERDAS.879-F95BAADBEC-DQP7PME7TJLXNHV-74QQER3IHGYM-7XI4HD3SDNMA-NV2FWOKZFMQT-42ZDIABO55TN-SDLYZA-THUAW2COXZ2HUA-DEPLOYMENT.TRIAL-7FBTQF.TRIAL.EXPIRES.14.OCT.2022";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
