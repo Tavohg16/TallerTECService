@@ -62,6 +62,7 @@ namespace TallerTECService.Data
             }
 
 
+            newWorker.rol = newWorker.rol.ToLower();
             workerList.Add(newWorker);
             string json = JsonConvert.SerializeObject(workerList.ToArray());
             System.IO.File.WriteAllText(@"Data/trabajadores.json", json);
@@ -131,6 +132,21 @@ namespace TallerTECService.Data
 
             if (itemToModify != null)
             {
+
+                modifiedWorker.rol = modifiedWorker.rol.ToLower();
+                
+                if(modifiedWorker.rol == "gerente de sucursal")
+                {
+
+                    var gerente = workerList.SingleOrDefault(e => e.rol == modifiedWorker.rol);
+
+                    if(gerente != null)
+                    {
+                        response.actualizado = false;
+                        response.mensaje = "Error al modificar, ya existe un gerente de sucursal ";
+                        return response;
+                    }
+                }
                 workerList.Remove(itemToModify);
                 workerList.Add(modifiedWorker);
                 string json = JsonConvert.SerializeObject(workerList.ToArray());
