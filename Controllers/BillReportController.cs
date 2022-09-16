@@ -12,35 +12,27 @@ namespace TallerTECService.Controllers
     //Route especifica la ruta para este controlador. En este caso local:
     //http://localhost:5075/api/manage/appointment
     
-    [Route("api/manage/appointment")]
+    [Route("api/manage/billing")]
     [ApiController]
     [EnableCors("Policy")]
-    public class AppointmentController : ControllerBase
+    public class BillReportController : ControllerBase
     {
         private readonly ITallerRepo _repository;
 
-        public AppointmentController(ITallerRepo repository)
+        public BillReportController(ITallerRepo repository)
         {
             _repository = repository;
         }
         
         
-        // POST api/manage/appointment
-        [HttpPost]
-        public ActionResult<ActionResponse> CreateAppointment(Appointment newAppointment)
+        // POST api/manage/billing
+        [HttpGet]
+        public ActionResult<ActionResponse> CreateBill(BillRequest newBill)
         {
-
-            var response = _repository.CreateAppointment(newAppointment);
+            
+            var response = _repository.CreateBill(newBill);
             return Ok(response);
 
-        }
-
-        //GET api/manage/appointment/all
-        [HttpGet("all")]
-        public ActionResult<MultivalueApp> GetAllAppointments()
-        {
-            var response = _repository.GetAllAppointments();
-            return Ok(response);
         }
 
     }

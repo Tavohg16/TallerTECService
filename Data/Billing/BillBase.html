@@ -23,24 +23,24 @@
          <!-- begin invoice-header -->
          <div class="invoice-header">
             <div class="invoice-from">
-               <small>Colaborador a cargo:</small>
+               <small >Colaborador a cargo:</small>
                <address class="m-t-5 m-b-5">
-                  <strong class="text-inverse">Nombre Trabajador</strong><br>
+                  <strong class="text-inverse" id="trabajador">Nombre Trabajador</strong><br>
                </address>
             </div>
             <div class="invoice-to">
                <small>Facturado a:</small>
                <address class="m-t-5 m-b-5">
-                  <strong class="text-inverse">Nombre cliente</strong><br>
-                  <strong>Cedula: 000000000 </strong><br>
-                  <strong>Placa vehiculo: ABC-123 </strong><br>
+                  <strong class="text-inverse" id="cliente">Nombre cliente</strong><br>
+                  <strong id="cedula">Cedula: 000000000 </strong><br>
+                  <strong id="placa">Placa vehiculo: ABC-123 </strong><br>
                </address>
             </div>
             <div class="invoice-date">
                <small>Datos de facturacion</small>
-               <div class="date text-inverse m-t-5">Dia,mes,ano</div>
+               <div class="date text-inverse m-t-5" id="fecha">Dia,mes,ano</div>
                <div class="invoice-detail">
-                  <strong>idFactura</strong><br>
+                  <strong id="id">idFactura</strong><br>
                   <strong>Factura de servicio</strong> 
                </div>
             </div>
@@ -62,30 +62,30 @@
                   <tbody>
                      <tr>
                         <td>
-                           <span class="text-inverse">Servicio</span><br>
-                           <small>Descripcion del servicio brindado.</small>
+                           <span class="text-inverse" id="servicio">Servicio</span><br>
+                           <small id="descripcion-servicio">Descripcion del servicio brindado.</small>
                         </td>
-                        <td class="text-center">$50.00</td>
-                        <td class="text-center">1</td>
-                        <td class="text-right">$2,500.00</td>
+                        <td class="text-center" id="precio01">$50.00</td>
+                        <td class="text-center" id="unidades01">1</td>
+                        <td class="text-right" id="subtotal01">$2,500.00</td>
                      </tr>
                      <tr>
                         <td>
-                           <span class="text-inverse">Producto</span><br>
-                           <small>Descripcion de producto.</small>
+                           <span class="text-inverse" id="producto">Producto</span><br>
+                           <small id="descripcion-producto">Descripcion de producto.</small>
                         </td>
-                        <td class="text-center">$50.00</td>
-                        <td class="text-center">1</td>
-                        <td class="text-right">$2,000.00</td>
+                        <td class="text-center" id="precio02">$50.00</td>
+                        <td class="text-center" id="unidades02">1</td>
+                        <td class="text-right" id="subtotal02">$2,500.00</td>
                      </tr>
                      <tr>
                         <td>
-                           <span class="text-inverse">Repuesto</span><br>
-                           <small>Descripcion de repuesto.</small>
+                           <span class="text-inverse" id="repuesto">Repuesto</span><br>
+                           <small id="descripcion-repuesto">Descripcion de repuesto.</small>
                         </td>
-                        <td class="text-center">$50.00</td>
-                        <td class="text-center">1</td>
-                        <td class="text-right">$2,500.00</td>
+                        <td class="text-center" id="precio03">$50.00</td>
+                        <td class="text-center" id="unidades03">1</td>
+                        <td class="text-right" id="subtotal03">$2,500.00</td>
                      </tr>
                   </tbody>
                </table>
@@ -94,7 +94,7 @@
             <!-- begin invoice-price -->
             <div class="invoice-price">
                <div class="invoice-price-right">
-                  <h4>TOTAL</h4> <span class="f-w-600">$4508.00</span>
+                  <h4>TOTAL</h4> <span class="f-w-600" id="total">$4508.00</span>
                </div>
             </div>
             <!-- end invoice-price -->
