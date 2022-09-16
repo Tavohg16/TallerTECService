@@ -15,22 +15,48 @@ namespace TallerTECService.Controllers
     [Route("api/manage/billing")]
     [ApiController]
     [EnableCors("Policy")]
-    public class BillReportController : ControllerBase
+    public class BillController : ControllerBase
     {
         private readonly ITallerRepo _repository;
 
-        public BillReportController(ITallerRepo repository)
+        public BillController(ITallerRepo repository)
         {
             _repository = repository;
         }
         
         
         // POST api/manage/billing
-        [HttpGet]
+        [HttpPost]
         public ActionResult<ActionResponse> CreateBill(BillRequest newBill)
         {
             
             var response = _repository.CreateBill(newBill);
+            return Ok(response);
+
+        }
+
+    }
+
+
+    [Route("api/manage/reporting")]
+    [ApiController]
+    [EnableCors("Policy")]
+    public class ReportController : ControllerBase
+    {
+        private readonly ITallerRepo _repository;
+
+        public ReportController(ITallerRepo repository)
+        {
+            _repository = repository;
+        }
+        
+        
+        // POST api/manage/reporting
+        [HttpPost]
+        public ActionResult<ActionResponse> CreateBill(ReportRequest newReport)
+        {
+            
+            var response = _repository.CreateReport(newReport);
             return Ok(response);
 
         }

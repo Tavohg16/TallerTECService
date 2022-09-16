@@ -329,34 +329,47 @@ namespace TallerTECService.Data
             var customerList = GetAllCustomers().clientes;
             var workerList = GetAllWorkers().trabajadores;
 
-            
+
             var checkId = customerList.AsQueryable().Where(e => e.cedula == newAppointment.cedula_cliente).FirstOrDefault();
 
             if (checkId != null)
             {
-                var mechanics = new List<Trabajador>();
-                for (int i = 0; i < workerList.Count; i++)
+                var checkBillId = appList.AsQueryable().Where(e => e.id == newAppointment.id).FirstOrDefault();
+
+                if (checkBillId == null)
                 {
-                    var worker = workerList.ElementAt<Trabajador>(i);
-                    
-                    if(worker.rol == "Mecanico")
+                    var mechanics = new List<Trabajador>();
+                    for (int i = 0; i < workerList.Count; i++)
                     {
-                        mechanics.Add(worker);
+                        var worker = workerList.ElementAt<Trabajador>(i);
+
+                        if (worker.rol == "Mecanico")
+                        {
+                            mechanics.Add(worker);
+                        }
                     }
+
+                    var random = new System.Random();
+                    int index = random.Next(0, mechanics.Count);
+                    var name = mechanics.ElementAt<Trabajador>(index).nombre;
+                    var lname01 = mechanics.ElementAt<Trabajador>(index).primer_apellido;
+                    var lname02 = mechanics.ElementAt<Trabajador>(index).segundo_apellido;
+                    newAppointment.mecanico = name + " " + lname01 + " " + lname02;
+                    appList.Add(newAppointment);
+                    string json = JsonConvert.SerializeObject(appList.ToArray());
+                    System.IO.File.WriteAllText(@"Data/citas.json", json);
+                    response.actualizado = true;
+                    response.mensaje = "Cita creada exitosamente";
+                    return response;
+
+                }
+                else
+                {
+                    response.actualizado = false;
+                    response.mensaje = "Error al crear la cita, ya existe una factura con el id "+ newAppointment.id;
+                    return response;
                 }
 
-                var random = new System.Random();
-                int index = random.Next(0, mechanics.Count);
-                var name = mechanics.ElementAt<Trabajador>(index).nombre;
-                var lname01 = mechanics.ElementAt<Trabajador>(index).primer_apellido;
-                var lname02 = mechanics.ElementAt<Trabajador>(index).segundo_apellido;
-                newAppointment.mecanico = name+" "+lname01+" "+lname02;
-                appList.Add(newAppointment);
-                string json = JsonConvert.SerializeObject(appList.ToArray());
-                System.IO.File.WriteAllText(@"Data/citas.json", json);
-                response.actualizado = true;
-                response.mensaje = "Cita creada exitosamente";
-                return response;
             }
             else
             {
@@ -394,7 +407,26 @@ namespace TallerTECService.Data
             return response;
         }
 
-        
+        public ActionResponse CreateReport(ReportRequest newReport)
+        {
+            var response = new ActionResponse();
+
+            if(newReport.id == 2)
+            {
+                ReportGenerator.VehicleReport();
+            }
+            
+            if(newReport.id == 2)
+            {
+                ReportGenerator.CustomerReport();
+            }
+            
+            
+            response.actualizado = true;
+            response.mensaje = "EN CONSTRUCCION, PDF GENERADO EN PROYECTO TallerTECService";
+            return response;
+            
+        }
     }
 
 }
