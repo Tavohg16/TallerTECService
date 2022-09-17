@@ -179,7 +179,7 @@ namespace TallerTECService.Data.Billing
             var subtotal03 = billDoc.GetElementbyId("subtotal01");
             var total = billDoc.GetElementbyId("total");
 
-            if (app.servicio == "aceite")
+            if (app.servicio.ToLower() == "cambio de aceite")
             {
 
                 servicio.InnerHtml = "Cambio de aceite";
@@ -212,11 +212,11 @@ namespace TallerTECService.Data.Billing
 
             }
 
-            if (app.servicio == "alineado")
+            if (app.servicio.ToLower() == "alineado")
             {
 
                 servicio.InnerHtml = "Alineado y cambio de llantas";
-                descripcionServicio.InnerHtml = "Alineado de llantas y sustitucion por desgaste";
+                descripcionServicio.InnerHtml = "Alineado y sustitucion de llantas por desgaste";
                 producto.InnerHtml = "LLantas Michelin";
                 descripcionProducto.InnerHtml = "Llanta premium";
                 repuesto.InnerHtml = "Disco de freno";
@@ -231,6 +231,99 @@ namespace TallerTECService.Data.Billing
                 unidades03.InnerHtml = "1";
                 subtotal03.InnerHtml = "₡55.000";
                 total.InnerHtml = "₡489,000";
+                var sale = new Sale();
+                sale.cedula_cliente = app.cedula_cliente;
+                sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
+                sale.monto = 489000;
+                sale.placa = app.placa_vehiculo;
+                sale.servicio = app.servicio;
+                sale.sucursal = app.sucursal;
+                sale.billId = app.id;
+                RegisterSale(sale);
+
+            }
+
+            if (app.servicio.ToLower() == "revisión 5k")
+            {
+
+                servicio.InnerHtml = "Revision 5000 Kilometros";
+                descripcionServicio.InnerHtml = "Servicio de revisión automotriz";
+                producto.InnerHtml = "LLantas Michelin";
+                descripcionProducto.InnerHtml = "Llanta premium";
+                repuesto.InnerHtml = "Disco de freno";
+                descripcionRepuesto.InnerHtml = "Disco de freno perforado";
+                precio01.InnerHtml = "₡25,000";
+                unidades01.InnerHtml = "1";
+                subtotal01.InnerHtml = "₡25,000";
+                precio02.InnerHtml = "₡104,000";
+                unidades02.InnerHtml = "4";
+                subtotal02.InnerHtml = "₡416,000";
+                precio03.InnerHtml = "₡55,000";
+                unidades03.InnerHtml = "1";
+                subtotal03.InnerHtml = "₡55.000";
+                total.InnerHtml = "₡486,000";
+                var sale = new Sale();
+                sale.cedula_cliente = app.cedula_cliente;
+                sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
+                sale.monto = 489000;
+                sale.placa = app.placa_vehiculo;
+                sale.servicio = app.servicio;
+                sale.sucursal = app.sucursal;
+                sale.billId = app.id;
+                RegisterSale(sale);
+
+            }
+
+            if (app.servicio.ToLower() == "revisión 10k")
+            {
+
+                servicio.InnerHtml = "Revisión 10000 Kilometros";
+                descripcionServicio.InnerHtml = "Servicio de revisión automotriz";
+                producto.InnerHtml = "Kit de limpieza Max";
+                descripcionProducto.InnerHtml = "Kit de cera y wipes de microfibra";
+                repuesto.InnerHtml = "Bateria Auto Everstart";
+                descripcionRepuesto.InnerHtml = "Modelo mf55457";
+                precio01.InnerHtml = "₡30,000";
+                unidades01.InnerHtml = "1";
+                subtotal01.InnerHtml = "₡30,000";
+                precio02.InnerHtml = "₡8,500";
+                unidades02.InnerHtml = "1";
+                subtotal02.InnerHtml = "8,500";
+                precio03.InnerHtml = "₡74,000";
+                unidades03.InnerHtml = "1";
+                subtotal03.InnerHtml = "₡74.000";
+                total.InnerHtml = "₡112,500";
+                var sale = new Sale();
+                sale.cedula_cliente = app.cedula_cliente;
+                sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
+                sale.monto = 489000;
+                sale.placa = app.placa_vehiculo;
+                sale.servicio = app.servicio;
+                sale.sucursal = app.sucursal;
+                sale.billId = app.id;
+                RegisterSale(sale);
+
+            }
+
+            if (app.servicio.ToLower() == "revisión 20k")
+            {
+
+                servicio.InnerHtml = "Revisión 20000 Kilometros";
+                descripcionServicio.InnerHtml = "Servicio de revisión automotriz";
+                producto.InnerHtml = "Alternador Delco";
+                descripcionProducto.InnerHtml = "7si serie 200 24v 65a 7197n";
+                repuesto.InnerHtml = "Filtro de aceite Yutong";
+                descripcionRepuesto.InnerHtml = "Modelo A40180551058";
+                precio01.InnerHtml = "₡35,000";
+                unidades01.InnerHtml = "1";
+                subtotal01.InnerHtml = "₡35,000";
+                precio02.InnerHtml = "₡200,602";
+                unidades02.InnerHtml = "1";
+                subtotal02.InnerHtml = "₡200,602";
+                precio03.InnerHtml = "₡28,000";
+                unidades03.InnerHtml = "1";
+                subtotal03.InnerHtml = "₡28,000";
+                total.InnerHtml = "₡263,602";
                 var sale = new Sale();
                 sale.cedula_cliente = app.cedula_cliente;
                 sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;

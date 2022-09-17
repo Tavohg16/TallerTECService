@@ -411,19 +411,24 @@ namespace TallerTECService.Data
         {
             var response = new ActionResponse();
 
+            if(newReport.id ==1)
+            {
+                ReportGenerator.SalesReport(newReport);
+            }
+
             if(newReport.id == 2)
             {
                 ReportGenerator.VehicleReport();
             }
             
-            if(newReport.id == 2)
+            if(newReport.id == 3)
             {
                 ReportGenerator.CustomerReport();
             }
             
             
             response.actualizado = true;
-            response.mensaje = "EN CONSTRUCCION, PDF GENERADO EN PROYECTO TallerTECService";
+            response.mensaje = "Reporte Generado!";
             return response;
             
         }
