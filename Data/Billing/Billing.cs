@@ -89,6 +89,7 @@ namespace TallerTECService.Data.Billing
 
         public static void RegisterSale(Sale newSale)
         {
+            
             var saleList = new List<Sale>();
             var appList = new List<Appointment>();
 
@@ -179,6 +180,8 @@ namespace TallerTECService.Data.Billing
             var subtotal03 = billDoc.GetElementbyId("subtotal01");
             var total = billDoc.GetElementbyId("total");
 
+            
+            
             if (app.servicio.ToLower() == "cambio de aceite")
             {
 
@@ -239,12 +242,14 @@ namespace TallerTECService.Data.Billing
                 sale.servicio = app.servicio;
                 sale.sucursal = app.sucursal;
                 sale.billId = app.id;
+                sale.estado = app.estado;
                 RegisterSale(sale);
 
             }
 
             if (app.servicio.ToLower() == "revisión 5k")
             {
+                
 
                 servicio.InnerHtml = "Revision 5000 Kilometros";
                 descripcionServicio.InnerHtml = "Servicio de revisión automotriz";
@@ -265,11 +270,12 @@ namespace TallerTECService.Data.Billing
                 var sale = new Sale();
                 sale.cedula_cliente = app.cedula_cliente;
                 sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
-                sale.monto = 489000;
+                sale.monto = 486000;
                 sale.placa = app.placa_vehiculo;
                 sale.servicio = app.servicio;
                 sale.sucursal = app.sucursal;
                 sale.billId = app.id;
+                sale.estado = app.estado;
                 RegisterSale(sale);
 
             }
@@ -296,11 +302,12 @@ namespace TallerTECService.Data.Billing
                 var sale = new Sale();
                 sale.cedula_cliente = app.cedula_cliente;
                 sale.fecha = app.dia_cita + "/" + app.mes_cita + "/" + app.ano_cita;
-                sale.monto = 489000;
+                sale.monto = 112500;
                 sale.placa = app.placa_vehiculo;
                 sale.servicio = app.servicio;
                 sale.sucursal = app.sucursal;
                 sale.billId = app.id;
+                sale.estado = app.estado;
                 RegisterSale(sale);
 
             }
@@ -332,6 +339,7 @@ namespace TallerTECService.Data.Billing
                 sale.servicio = app.servicio;
                 sale.sucursal = app.sucursal;
                 sale.billId = app.id;
+                sale.estado = app.estado;
                 RegisterSale(sale);
 
             }
