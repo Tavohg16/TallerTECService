@@ -62,7 +62,7 @@ namespace TallerTECService.Data
             }
 
 
-            newWorker.rol = newWorker.rol.ToLower();
+            newWorker.rol = newWorker.rol;
             workerList.Add(newWorker);
             string json = JsonConvert.SerializeObject(workerList.ToArray());
             System.IO.File.WriteAllText(@"Data/trabajadores.json", json);
