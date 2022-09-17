@@ -138,7 +138,7 @@ namespace TallerTECService.Data.Billing
 
 
                 HtmlDocument reportDoc = new HtmlDocument();
-                reportDoc.Load(@"Data/Reporting/ReportBase.html");
+                reportDoc.Load(@"Data/Reporting/ReportSales.html");
 
                 var fecha = reportDoc.GetElementbyId("fecha");
                 fecha.InnerHtml = System.DateTime.Today.ToShortDateString();
